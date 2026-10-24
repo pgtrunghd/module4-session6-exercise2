@@ -52,4 +52,12 @@ class PatientControllerTest {
                         .content("{\"address\":\"Ha Noi\"}"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void getPatientByIdReturns404WhenMissing() throws Exception {
+        when(patientService.findById(99L)).thenReturn(java.util.Optional.empty());
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/patients/99"))
+                .andExpect(status().isNotFound());
+    }
 }
